@@ -57,6 +57,10 @@ class DataProcess:
                 features.append(list(map(int, a)))
                 line = f.readline()
         features_M = np.array(features)
+        # TF/IDF process
+        for i in range(features_M.shape[1]):
+            if np.sum(features_M[:, i]) > 0:
+                features_M[:, i] = features_M[:, i] * np.log(self.num_nodes / np.sum(features_M[:, i]))
         if features_M.shape[1] > 200:  # when feature size > 200, use SVD to decrease the dimensions of T
             U, S, VT = la.svd(features_M)
             Ud = U[:, 0:200]
